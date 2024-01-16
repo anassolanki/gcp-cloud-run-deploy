@@ -115,4 +115,5 @@ runs:
         secrets: ${{ inputs.secrets }}
         env_vars: ${{ inputs.env_vars }}
         region: ${{ inputs.gcp_region }}
+        project_id: ${{ inputs.project_id }}
         flags: ${{ env.SQL_INSTANCE_ID }} --port=${{ inputs.port }} --service-account ${{ inputs.service_account }} --vpc-connector=${{ env.VPC_CONNECTOR }} ${{ inputs.gcloud_args }}
