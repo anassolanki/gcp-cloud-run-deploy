@@ -89,7 +89,7 @@ runs:
             CONNECTOR_ID=$(gcloud compute networks vpc-access connectors list --region="${{ inputs.gcp_region }}" --project="${{ inputs.shared_project_id }}" --sort-by="creationTimestamp desc" --format="get(CONNECTOR_ID)" | head -n 1)
           fi
           echo "VPC_CONNECTOR=${CONNECTOR_ID}" >> $GITHUB_ENV
-          if [ ! -z "${{ env.VPC_CONNECTOR }}" ]; then
+          if [ ! -z "${CONNECTOR_ID}" ]; then
             echo "ADD_VPC_CONNECTOR=--vpc-connector=${CONNECTOR_ID}" >> $GITHUB_ENV
           fi
           echo "PROJECT_ID=${{ inputs.shared_project_id }}" >> $GITHUB_ENV
@@ -102,7 +102,7 @@ runs:
             CONNECTOR_ID=$(gcloud compute networks vpc-access connectors list --region="${{ inputs.gcp_region }}" --sort-by="creationTimestamp desc" --format="get(CONNECTOR_ID)" | head -n 1)
           fi
           echo "VPC_CONNECTOR=${CONNECTOR_ID}" >> $GITHUB_ENV
-          if [ ! -z "${{ env.VPC_CONNECTOR }}" ]; then
+          if [ ! -z "${CONNECTOR_ID}" ]; then
             echo "ADD_VPC_CONNECTOR=--vpc-connector=${CONNECTOR_ID}" >> $GITHUB_ENV
           fi
           echo "PROJECT_ID=${{ inputs.project_id }}" >> $GITHUB_ENV
