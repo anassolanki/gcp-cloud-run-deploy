@@ -89,6 +89,7 @@ runs:
             CONNECTOR_ID=$(gcloud compute networks vpc-access connectors list --region="${{ inputs.gcp_region }}" --project="${{ inputs.shared_project_id }}" --sort-by="creationTimestamp desc" --format="get(CONNECTOR_ID)" | head -n 1)
           fi
           echo "VPC_CONNECTOR=${CONNECTOR_ID}" >> $GITHUB_ENV
+          echo "ADD_VPC_CONNECTOR=--vpc-connector=${CONNECTOR_ID}" >> $GITHUB_ENV
           echo "PROJECT_ID=${{ inputs.shared_project_id }}" >> $GITHUB_ENV
         else
           # check if a connector with the region-based name exists
@@ -99,6 +100,7 @@ runs:
             CONNECTOR_ID=$(gcloud compute networks vpc-access connectors list --region="${{ inputs.gcp_region }}" --sort-by="creationTimestamp desc" --format="get(CONNECTOR_ID)" | head -n 1)
           fi
           echo "VPC_CONNECTOR=${CONNECTOR_ID}" >> $GITHUB_ENV
+          echo "ADD_VPC_CONNECTOR=--vpc-connector=${CONNECTOR_ID}" >> $GITHUB_ENV
           echo "PROJECT_ID=${{ inputs.project_id }}" >> $GITHUB_ENV
         fi
     - name: Set SQL instance
@@ -116,4 +118,4 @@ runs:
         env_vars: ${{ inputs.env_vars }}
         region: ${{ inputs.gcp_region }}
         project_id: ${{ inputs.project_id }}
-        flags: ${{ env.SQL_INSTANCE_ID }} --port=${{ inputs.port }} --service-account ${{ inputs.service_account }} --vpc-connector=${{ env.VPC_CONNECTOR }} ${{ inputs.gcloud_args }}
+        flags: ${{ env.SQL_INSTANCE_ID }} --port=${{ inputs.port }} --service-account ${{ inputs.service_account }} ${{ env.ADD_VPC_CONNECTOR }} ${{ inputs.gcloud_args }}
